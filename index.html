@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartita Santa</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Nunito:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{ box-sizing: border-box; }
+
+        html, body{ margin: 0; }
+
+        body{
+            background-color: #233330;
+            color: white;
+            overflow-x: hidden;          /* evita scroll horizontal por las esferas */
+            padding: 20px 0;
+        }
+
+        /* ---------- CONTENEDOR PRINCIPAL ---------- */
+        div.princi{
+            position: relative;          /* necesario para las esferas */
+            width: calc(100% - 70px);    /* deja espacio para que las esferas no se corten */
+            max-width: 1100px;
+            margin: 50px auto;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.885);
+            border-radius: 10px;
+            padding: clamp(12px, 3vw, 20px);
+        }
+
+        h1{
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 8vw, 80px);   /* se adapta solo al ancho */
+            margin: 10px 0;
+            line-height: 1.1;
+        }
+        h2{
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(18px, 4vw, 24px);
+        }
+        p{
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(15px, 2.5vw, 17px);
+        }
+        ul{ text-align: left; }
+
+        img{ max-width: 100%; height: auto; }
+
+        /* ---------- ESFERAS ---------- */
+        .esfera{
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        .esfera::before{
+            content: "";
+            position: absolute;
+            top: 12%;
+            left: 20%;
+            width: 25%;
+            height: 25%;
+            background: rgba(255,255,255,0.75);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+        .esfera::after{
+            content: "";
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 12px;
+            background: linear-gradient(#f5d77a, #b8912f);
+            border-radius: 3px 3px 0 0;
+        }
+        .esfera.tl{ top: -35px;    left: -35px;  background: radial-gradient(circle at 30% 30%, #ff6b6b, #b30000); }
+        .esfera.tr{ top: -35px;    right: -35px; background: radial-gradient(circle at 30% 30%, #f5d77a, #b8912f); }
+        .esfera.bl{ bottom: -35px; left: -35px;  background: radial-gradient(circle at 30% 30%, #6bd68a, #0b6b2a); }
+        .esfera.br{ bottom: -35px; right: -35px; background: radial-gradient(circle at 30% 30%, #7fb8ff, #1a3f8f); }
+
+        /* ---------- TITULO + LUCES ---------- */
+        .titulo{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        .luces{
+            display: flex;
+            gap: 22px;
+            position: relative;
+            padding-top: 10px;
+        }
+        .luces::before{
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #0d1a17;
+            border-radius: 3px;
+        }
+        .foco{
+            position: relative;
+            width: 18px;
+            height: 26px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background-color: #d62828;
+            animation: luz 3s ease-in-out infinite;
+        }
+        .foco::before{
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #8a8a8a;
+            border-radius: 2px;
+        }
+        .foco::after{
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 4px;
+            width: 4px;
+            height: 7px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+        }
+        .foco:nth-child(1){ animation-delay: 0s; }
+        .foco:nth-child(2){ animation-delay: -0.6s; }
+        .foco:nth-child(3){ animation-delay: -1.2s; }
+        .foco:nth-child(4){ animation-delay: -1.8s; }
+        .foco:nth-child(5){ animation-delay: -2.4s; }
+
+        @keyframes luz{
+            0%   { background-color:#d62828; box-shadow:0 0 14px #d62828; }
+            25%  { background-color:#e0a526; box-shadow:0 0 14px #e0a526; }
+            50%  { background-color:#1f9d4d; box-shadow:0 0 14px #1f9d4d; }
+            75%  { background-color:#2f6fd6; box-shadow:0 0 14px #2f6fd6; }
+            100% { background-color:#d62828; box-shadow:0 0 14px #d62828; }
+        }
+
+        /* ---------- CAJA CON NIEVE ---------- */
+        .caja-nieve{
+            position: relative;
+            background-color: rgb(213, 208, 208);
+            border-radius: 10px;
+            margin: 60px auto 50px;
+            padding: 45px clamp(12px, 3vw, 20px) 20px;
+            width: 90%;
+            max-width: 900px;
+        }
+        .caja-nieve p{ color: black; }
+
+        .caja-nieve::before{
+            content: "";
+            position: absolute;
+            top: -14px;
+            left: -10px;
+            right: -10px;
+            height: 30px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+        }
+        .caja-nieve::after{
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            height: 34px;
+            background:
+                radial-gradient(circle at 14px 12px, #fff 11px, transparent 12px) 0 0 / 70px 34px repeat-x,
+                radial-gradient(circle at 16px 14px, #fff 15px, transparent 16px) 35px 0 / 110px 34px repeat-x,
+                radial-gradient(circle at 10px 10px, #eef4fb 8px, transparent 9px) 15px 0 / 55px 34px repeat-x;
+            filter: drop-shadow(0 3px 2px rgba(0,0,0,0.2));
+        }
+
+        /* ---------- TABLA ---------- */
+        table{
+            filter: drop-shadow(1px 1px 10px rgb(0, 0, 0));
+            margin: auto;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td{
+            border: #233330 2px solid;
+            border-radius: 10px;
+            padding: 10px 16px;
+            vertical-align: middle;
+        }
+        td.quiero p{ margin: 0; }
+
+        td.img{ text-align: center; }
+        /* En escritorio NO usar max-width:100% aqui: colapsa la celda y la imagen desaparece */
+        td.img img{
+            width: auto;
+            height: 100px;
+            max-width: none;
+            object-fit: contain;
+        }
+
+        /* imagen grande del pie de tabla */
+        tfoot td img{
+            width: 300px;
+            max-width: none;
+            height: auto;
+        }
+
+        /* ---------- TABLETS ---------- */
+        @media (max-width: 900px){
+            .luces{ gap: 14px; }
+            .titulo{ gap: 16px; }
+        }
+
+        /* ---------- CELULARES ---------- */
+        @media (max-width: 700px){
+            div.princi{
+                width: calc(100% - 44px);
+                margin: 40px auto;
+            }
+
+            /* esferas más chicas */
+            .esfera{ width: 45px; height: 45px; }
+            .esfera.tl{ top:-22px;    left:-22px; }
+            .esfera.tr{ top:-22px;    right:-22px; }
+            .esfera.bl{ bottom:-22px; left:-22px; }
+            .esfera.br{ bottom:-22px; right:-22px; }
+
+            /* luces arriba y abajo del título */
+            .titulo{ flex-direction: column; gap: 10px; }
+            .luces{ gap: 16px; }
+
+            .caja-nieve{ width: 100%; margin-top: 40px; }
+
+            /* tabla convertida en tarjetas */
+            table, thead, tbody, tfoot, tr, th, td{
+                display: block;
+                width: 100%;
+            }
+            thead{ display: none; }
+
+            tr{
+                background: rgba(255,255,255,0.07);
+                border-radius: 10px;
+                padding: 8px;
+                margin-bottom: 16px;
+            }
+            td{
+                border: none;
+                padding: 6px 8px;
+                text-align: left;
+            }
+            td::before{
+                content: attr(data-label);
+                display: block;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #f5d77a;
+                margin-bottom: 4px;
+            }
+            td.img{ text-align: center; }
+            td.img img{ height: 140px; max-width: 100%; }
+            tfoot td{ text-align: center; }
+            tfoot td img{ width: 100%; max-width: 320px; }
+        }
+
+        /* ---------- CELULARES MUY CHICOS ---------- */
+        @media (max-width: 380px){
+            .foco{ width: 14px; height: 22px; }
+            .luces{ gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="princi">
+
+        <div class="esfera tl"></div>
+        <div class="esfera tr"></div>
+        <div class="esfera bl"></div>
+        <div class="esfera br"></div>
+
+        <div class="titulo">
+            <div class="luces">
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+            </div>
+
+            <h1>Cartita Santa</h1>
+
+            <div class="luces">
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+                <span class="foco"></span>
+            </div>
+        </div>
+
+        <div class="caja-nieve">
+            <h2>Cosas que me gustaría que santa me trajera:</h2>
+            <p>Hola, mi querida santa bella hermosa preciosa chula bella, te estoy escribiendo mi cartita de lo que me gustaría esta navidad, ya que he sido un niño muuuy bueno y me gustaría esta navidad pasarmela muy bien, pero primero que nada me gustaría agradecerte por darme un año muy bonito con el amor de mi vida ya que con ella no ha faltado nada porque ella me ama, me entiende y me tiene paciencia. Amo mucho a mi niña hermosa </p>
+        </div>
+
+        <table>
+        <thead>
+            <tr>
+            <th>Regalo</th>
+            <th>Porque la quiero</th>
+            <th>link</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+            <td data-label="Regalo">Una vida con el amor de mi vida</td>
+            <td class="quiero" data-label="Porque la quiero"><p>Yo la verdad quiero para empezar una vida junto el amor de mi vida Mexsin Marelin Huerta Rivera y pasar juntitos naviiidaaaddd, ano nuevoooo, mi cumpleaños, 14 de febrero, aniversarioooo y muchas cosas más juntos por el resto de nuestras vidaaaas.</p></td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/0epNxPCl"><img src="https://i.pinimg.com/736x/c4/31/f8/c431f8fb3324f3426f959836c14ee530.jpg" alt="Una vida juntos"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Grand Theft Auto VI versión física Xbox X/S</td>
+            <td class="quiero" data-label="Porque la quiero"><p>Yo quiero esto porque es lo que siempre he  querido y me gustaría tenerlo para poder jugar y trabajar con él, ya que llevo mucho tiempo esperando a que salga.</p></td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/0epNxPCl"><img src="https://m.media-amazon.com/images/I/81q8IZ2VVTL._AC_SL1500_.jpg" alt="GTA6"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Monitor de 100hz</td>
+            <td class="quiero" data-label="Porque la quiero">Lo quiero ya que el monitor que tengo ahorita esta roto y a cada rato se toma su break de 5 minutos</td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/08rjbUbn"><img src="https://m.media-amazon.com/images/I/41vqqDZ7nZL._AC_SX522_.jpg" alt="monitor"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Carcasa para mi laptop</td>
+            <td class="quiero" data-label="Porque la quiero">Yo necesito esta carcasa para mi laptop ya que la que tengo esta dañada y no me permite trabajar cómodamente y me da miedo a que se rompa más</td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/07PsRfAl"><img src="https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T4/images/I/71t7p+LpGQL._AC_SL1500_.jpg" alt="carcasa"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Kit de Guitarra</td>
+            <td class="quiero" data-label="Porque la quiero">La quiero porque extraño tocar guitarra</td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/052XokgQ"><img src="https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T4/images/I/719Len8-xLL._AC_SL1500_.jpg" alt="guitarra"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Codigo de regalo de Cyberpunk 2077</td>
+            <td class="quiero" data-label="Porque la quiero">La quiero porque extraño tocar guitarra</td>
+            <td class="img" data-label="Link"><a href="https://store.steampowered.com/app/1091500/Cyberpunk_2077/"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic0.gamerantimages.com%2Fwordpress%2Fwp-content%2Fuploads%2F2022%2F09%2Fcyberpunk-2077-poster.jpg&f=1&nofb=1&ipt=062546a5cdc70905ac69a23dc8f9ea830015bc6c10e156e243e968d700fbe399&ipo=images" alt="cyberpunk2077"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Un regalo hecho a mano por mi novia</td>
+            <td class="quiero" data-label="Porque la quiero">Quisiera un regalo hecho por mi novia para poder tener algo especial que me recuerde de ella cada vez que lo vea</td>
+            <td class="img" data-label="Link"><img src="https://m.media-amazon.com/images/I/71Vio-bwG7L._AC_SL1500_.jpg" alt="novia"></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Quiero que mi perrito este bien en el cielo</td>
+            <td class="quiero" data-label="Porque la quiero">Yo quiero que mi perrito este bien en el cielo porque el es una parte importante de mi vida y siempre me ha acompañado en todo y yo solo le pido a mi dios que me lo cuide tanto como yo lo hacía y si puede muchisimo más</td>
+            <td class="img" data-label="Link"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.perrosderaza.co%2Fwp-content%2Fuploads%2F2025%2F03%2FPerro-Salchicha-en-Peru.png&f=1&nofb=1&ipt=54fd1c34997a94cfcb2e2947ccd0c653d5f2fb6015a34281a28b64517c45b79b&ipo=images" alt="Miki"></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Reloj Casio para andar muñecon</td>
+            <td class="quiero" data-label="Porque la quiero">Quisiera un reloj para verme guapo con mi outfit y siempre llevar el tiempo encima</td>
+            <td class="img" data-label="Link"><a href="https://a.co/d/0huooVGQ"><img src="https://m.media-amazon.com/images/I/6106iYpAcPL._AC_SX679_AIweblab1392912,T1_.jpg" alt="reloj"></a></td>
+            </tr>
+
+            <tr>
+            <td data-label="Regalo">Red Dead Redemption 2 codigo de regalo</td>
+            <td class="quiero" data-label="Porque la quiero">Quisiera el juego de Red Dead Redemption 2 para PC en Steam para jugarlo más agusto en mi computadora y poder disfrutar muchas horas de juego</td>
+            <td class="img" data-label="Link"><a href="https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/"><img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-08-dec-2024-02-34-pm-9319.jpg" alt="Red Dead Redemption 2"></a></td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+
+            <tr>
+            <td>Muchas gracias por leer mi cartita Santa, te amo mucho ATT: Chito</td>
+            <td colspan="2"><img src="https://a.ltrbxd.com/resized/sm/upload/9q/u4/we/ru/wQ9xXR2dpPAb9CKmv83tBs8qNjj-1200-1200-675-675-crop-000000.jpg?k=04e51f4e8e" alt="miVida"></td>
+            </tr>
+
+        </tfoot>
+        </table>
+
+    </div>
+</body>
+</html>
